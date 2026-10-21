@@ -11,10 +11,13 @@ Two independent sources, one of them Honda, say the factory touchscreen does **n
 
 So even though the cable includes USB, this generation's HondaLink does **not** implement AppRadio-style two-way touch. "HondaLink Next Generation" here is (a) phone apps whose output (e.g. planned routes) shows on the screen, plus (b) a plain HDMI A/V playback feature — **not** a mirrored, touch-controlled phone desktop.
 
-## Why the "dongle impersonates the HondaLink phone" idea doesn't open a door here
-The coordinator's hypothesis was that touch rides a separate USB/MHL channel a dongle could feed. The evidence says there is **no touch-back channel to impersonate** on this unit: Honda states the screen can't control the source at all. The USB leg of the kit carries power/handshake, not inbound touch. A dongle can't receive touch events the head unit never sends.
+## Does the "dongle impersonates the HondaLink phone" idea open a door?
+For a **plain HDMI AI-box**, no: Honda says the screen can't control the HDMI *playback* source, so there's nothing to feed. For a dongle that instead **impersonates the HondaLink phone** and makes the unit enter app-projection mode, the honest answer is **UNKNOWN** — because Pioneer's platform *does* carry touch over USB in "AppRadio Mode", and Honda's firmware is built on it. Honda may have stripped that channel (Honda's doc, Reading A) or merely gated it to HondaLink-SDK apps (Reading B). Only a **USB capture** of a live HondaLink session decides it. Even in the best case the Park video lock makes it Park-only. Full analysis in [hdmi-dongle-design.md](hdmi-dongle-design.md).
 
-(Contrast: Pioneer's aftermarket AppRadio units *did* send touch over USB — "AppRadio Mode". But that's a Pioneer *aftermarket* product. The Pioneer-built *Honda* DA exposes only the HDMI playback feature above. Same supplier, different firmware/feature set.)
+(Contrast: Pioneer's aftermarket AppRadio units *did* send touch over USB — "AppRadio Mode", unlocked for all apps by the "AppRadio Unchained" mod. That's a Pioneer *aftermarket* product; the Pioneer-built *Honda* DA exposes only the HDMI playback feature to consumers. Same platform, different firmware policy — which is exactly why the touch channel might still be latent.)
+
+## A more sophisticated variant: impersonate the HondaLink phone?
+A plain HDMI AI-box is display-only here (above). A cleverer idea (Jonah) is a dongle that impersonates a HondaLink *phone* so the unit enters app-projection mode and sends touch the way Pioneer's AppRadio Mode does. Whether this unit's firmware actually emits touch on the USB leg is **UNKNOWN** and only a USB capture settles it; and even in the best case the **Park video lock** makes it Park-only. Full analysis: [hdmi-dongle-design.md](hdmi-dongle-design.md).
 
 ## Consequence for the project
 - **Path 2 (HDMI AI-box) is confirmed dead for CarPlay-with-touch on this unit.** It could only ever give a Park-only, phone-controlled video window. Keep it filed as "not viable", not "fallback".

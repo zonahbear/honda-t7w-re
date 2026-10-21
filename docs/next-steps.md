@@ -36,7 +36,8 @@ Ranked; all start Tier 0-1 (observe / read-only). Detail in [root-access.md](roo
 - Output: exact menu combos, exploit used, kernel/Android versions on the sibling Pioneer/Mitsubishi units.
 
 ### P3. Settle the HDMI touch question (Path 2 fallback)
-- In the car: feed the HDMI input (any source), confirm whether it's **Park-only** and whether the touchscreen does anything to the source. Expected (from S5): display-only, no touch. If so, Path 2 is dead for CarPlay-with-touch; record it.
+- In the car: feed the HDMI input (any source), confirm whether it's **Park-only** and whether the touchscreen does anything to the source. Expected (from S5): display-only, no touch. If so, the plain-HDMI path is dead for touch; record it.
+- **P3b (optional, answers Jonah's dongle idea):** capture the USB traffic of a live HondaLink session (USB protocol analyzer or `usbmon` inline, with the HondaLink cable kit + a compatible iPhone), and look for a tap-correlated inbound stream = touch on the wire. If absent, the HondaLink-impersonation dongle is impossible. Easier once ADB/root exists (read the unit's iAP/HondaLink service). See [hdmi-dongle-design.md](hdmi-dongle-design.md).
 
 ## Status 2026-10-21
 - #1 steps 1-3 done: nothing Android-like visible, and no Display Repro (see hardware.md "UI survey"). Step 4 (empty `HondaAppCenter_A1.apk` on USB port 1) is still worth doing: on S1's unit the install path is triggered by the file name, so the US software could still react to it even without an app list.

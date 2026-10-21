@@ -34,6 +34,11 @@ Format: date, decision, why, alternatives considered.
 - **Why:** Jonah noted the HDMI input is the HondaLink input. Checked whether HondaLink passes factory touch back over USB (which would revive Path 2). Honda's own HR-V material and a Fit hands-on both say the touchscreen cannot control the HDMI source (S21). No touch-back channel to impersonate.
 - **Consequence:** Path 2 (HDMI AI-box) cannot give CarPlay-with-touch here. Path 1 (root) is the sole route. See docs/hdmi-hondalink.md.
 
+## 2026-10-21 D9: HondaLink-impersonation dongle analyzed; not pursued over Path 1
+- **What:** assessed Jonah's idea of a dongle that impersonates a HondaLink phone to receive factory touch (Pioneer AppRadio-Mode precedent). See docs/hdmi-dongle-design.md.
+- **Finding:** whether this firmware puts touch on the USB leg is UNKNOWN (Honda's doc says no control; the Pioneer platform could). Only a **USB capture** of a live HondaLink session settles it. Even best case, the Park video lock makes HDMI CarPlay Park-only, and impersonating the iPhone adds an iAP2/MFi auth problem — three blockers vs Path 1's one.
+- **Decision:** don't design/buy hardware now. Keep Path 1 (root) primary; fold the touch-on-the-wire check into the root work (read the unit's iAP/HondaLink service once ADB exists), or do a standalone USB capture if Jonah wants a definitive answer sooner.
+
 ## Dead ends so far
 - Fetching hrvforum / fitfreak / xda from the cloud sandbox: blocked. Read them locally instead.
 - Searching the exact firmware strings `1.E200`, `H14M` (beyond one forum hit), `CVH-7738`: nothing public.

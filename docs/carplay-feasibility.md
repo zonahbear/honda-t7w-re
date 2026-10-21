@@ -31,6 +31,8 @@ The HDMI input is the **HondaLink** input (Jonah). It was worth checking whether
 
 > The aftermarket Pioneer AppRadio *did* carry touch over USB, but that's a Pioneer consumer product. The Pioneer-built *Honda* DA ships only the display-only HDMI feature above.
 
+**Path 2b — impersonate the HondaLink phone (Jonah's idea):** a dongle that speaks HondaLink/AppRadio-Mode so the unit sends touch. Whether touch is on the wire at all is UNKNOWN (only a USB capture decides), and even the best case is Park-only. Three blockers vs Path 1's one. Full design note: [hdmi-dongle-design.md](hdmi-dongle-design.md). Not recommended over Path 1.
+
 ## Recommendation
 Pursue **Path 1**. Concretely: get **ADB/root** (root-access.md E1→E2), confirm Android version + that an app can read touch and host the dongle, then port an S1-style receiver app to the Pioneer framework. Path 2 is kept only as a fallback and is likely blocked by the HDMI input being display-only.
 
