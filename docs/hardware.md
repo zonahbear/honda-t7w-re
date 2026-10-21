@@ -5,6 +5,8 @@ Source IDs (S1, S2…) are defined in [research.md](research.md#sources).
 
 ## 1. Identifiers read from the vehicle (CONFIRMED, diag menu, 2026-10-21)
 
+Photo of the Version page (Application / DBOOT / Software loader / System μCom): [evidence/2026-10-21/version-screen.jpeg](evidence/2026-10-21/version-screen.jpeg). The device number and other rows were transcribed by Jonah and aren't photographed yet.
+
 | Property | Value |
 |---|---|
 | Vehicle | 2016 Honda HR-V EX, US market |
@@ -17,6 +19,7 @@ Source IDs (S1, S2…) are defined in [research.md](research.md#sources).
 | Display | Factory 7" touchscreen |
 | USB | 2 ports, flash-drive media works |
 | HDMI input | Present |
+| Front panel | Single CD slot with eject and day/night keys above the screen; MENU / BACK hard keys on the left bezel (photo) |
 | D-RAM / Flash diag | OK / OK |
 
 Diag menu items: Monitor Check, B-CAN, Unit Check, F-CAN, Audio Check, Version, Guideline Setup, Vehicle Status, Functional Setup, GPS Information.

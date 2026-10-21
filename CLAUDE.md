@@ -82,6 +82,7 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 - Found the S1/S2 lead: a non-US 2016 HR-V Honda Connect is Fujitsu Ten / Tegra / Android 4.0.4, with working CarPlay+AA via dongle + app.
 - No T7W firmware found. US forums blocked from the sandbox.
 - NEXT: in-car fingerprinting (next-steps #1).
+- Version-page photo added (`docs/evidence/2026-10-21/`), matches the IDs. Rest of #1 still open.
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff
