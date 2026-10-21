@@ -53,7 +53,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - D2: pure-native CarPlay rejected (needs Apple MFi + licensed stack). Best path is A′: dongle + own app on the factory OS. HDMI (C) is a fallback only.
 - D3: native AA (OpenDroidAuto-style, no dongle) stays a candidate.
 - D4: tools stay stdlib-only and read-only. No speculative format parsers.
-- D5: repo lives in project files until Jonah picks a GitHub repo.
+- D5: canonical repo is github.com/zonahbear/honda-t7w-re (created 2026-10-21).
 
 ## 6. Commands
 ```bash

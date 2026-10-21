@@ -18,7 +18,7 @@ Format: date, decision, why, alternatives considered.
 - **Rejected:** format-specific parsers for T7W packages. No sample exists, and the brief forbids placeholder tools.
 
 ## 2026-10-21 D5: Repo built in the cloud sandbox, mirrored to project files
-- **Why:** no `honda-t7w-re` GitHub repo existed. Jonah decides whether and where to create it. The working copy is at `/mnt/project-files/honda-t7w-re/` (plus a git bundle).
+- **Why:** no GitHub repo existed at first. Update 2026-10-21: Jonah created `zonahbear/honda-t7w-re` and this history was pushed there. GitHub is now canonical; the project-files copy is a stale snapshot.
 
 ## Dead ends so far
 - Fetching hrvforum / fitfreak / xda from the cloud sandbox: blocked. Read them locally instead.
