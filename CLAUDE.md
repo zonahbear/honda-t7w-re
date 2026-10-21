@@ -12,11 +12,14 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - **Constraints:** daily-driver car. No flashing, Display Repro, or bootloader work without explicit approval. Keep backup cam, audio and CAN working. Never bypass the Park video lock. Downloaded binaries are untrusted. See [docs/recovery.md](docs/recovery.md).
 
 ## 2. Current status
-- **Phase:** 1, platform identification (research). Phase 0 (memory/docs) done.
-- **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; first research pass (S1-S14).
-- **Big lead:** a probably-Brazilian 2016 HR-V EX-L runs a Fujitsu Ten "MY15ADA" Android 4.0.4 / Tegra unit, and [carlinkit-honda-connect](https://github.com/rsilveira/carlinkit-honda-connect) gets working CarPlay + AA on it via a Carlinkit CPC200 dongle + custom app (S1, S2). **Whether the US T7W is the same box is UNKNOWN.**
-- **Blockers:** no T7W firmware. US-forum evidence unreadable from the sandbox. The OS question needs observations in the car.
-- **Next action:** in-car fingerprinting, [docs/next-steps.md](docs/next-steps.md) #1.
+- **Goal (Jonah, 2026-10-21):** CarPlay on the factory screen **with working touch**, not a mirrored/Park-only feed. Focus pivoted to **gaining root** as the enabler.
+- **Phase:** 2, root access + native CarPlay path (see [docs/root-access.md](docs/root-access.md), [docs/carplay-feasibility.md](docs/carplay-feasibility.md)). Phase 0-1 done.
+- **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; research S1-S20.
+- **Key finding:** the US EX unit is a **Pioneer** build (S16, CONFIRMED from Honda's parts catalog), **not** the Fujitsu Ten unit of the Brazilian HR-V (S1). So the real prior art is the **US Pioneer-era Honda Android units** (2016 Pilot, 2017 Civic), which are **rooted** via DirtyCow / diag-menu ADB (S17, S18). Android on the US T7W is now STRONGLY SUPPORTED (by family); version UNKNOWN.
+- **Target workflow (Jonah, 2026-10-21):** get the USB-updatable official firmware → analyze here → **inject a projection client → re-update over USB** ([target-workflow.md](docs/target-workflow.md)). Gated on whether the package is signed+verified (then root/bench reflash instead). CarPlay still needs the dongle for Apple auth; **Android Auto is the only no-dongle projection**. Root (Path 1) stays the parallel track.
+- **Chosen path:** Path 1 (root → dongle + custom app forwarding factory touch). Path 2 (HDMI dongle) **closed**: the HDMI input is the HondaLink input and Honda confirms the touchscreen can't control the source — no touch-back channel (S21, hdmi-hondalink.md). A HondaLink-impersonation dongle (Jonah's idea) is analyzed in hdmi-dongle-design.md: touch-on-the-wire is UNKNOWN (needs a USB capture) and even best case is Park-only — not pursued over Path 1.
+- **Blockers:** no root/ADB yet; no T7W firmware; US forums (incl. the fitfreak "iroot" lead S19) unreadable from the sandbox.
+- **Next action:** **Jonah uploads the official firmware to this thread.** On arrival: hash → `inspect_firmware.py` → unpack → OS/kernel/chip + the **signing gate** (target-workflow.md stage 4). In parallel, in-car E1 (ADB via diag menu).
 
 ## 3. Repository map
 | Path | Purpose |
@@ -36,6 +39,11 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 | `docs/carplay-feasibility.md` / `docs/android-auto-feasibility.md` | approach A/A′/B/C scoring |
 | `docs/architecture.md` | repo data flow + hypothesized T7W model |
 | `docs/decisions.md` | decisions D1-D5 + dead ends |
+| `docs/root-access.md` | **root entry points E1-E4 (ADB/DirtyCow/update/UART), ranked** + immediate plan |
+| `docs/hdmi-hondalink.md` | why the HDMI/HondaLink input is display-only (no touch) → plain Path 2 closed |
+| `docs/hdmi-dongle-design.md` | design-feasibility of a HondaLink-impersonation dongle (touch UNKNOWN; Park-only; not pursued over Path 1) |
+| `docs/target-workflow.md` | **end-to-end plan: firmware → inject projection client → USB update**, with the signing gate + repack pipeline |
+| `docs/firmware.md` | acquisition channels + **what an official image unlocks** + analysis workflow |
 | `docs/recovery.md` | safety rules, risk tiers 0-4 |
 | `docs/next-steps.md` | ranked experiments, decision gate, unknowns |
 | `docs/session-log.md` | dated history |
@@ -82,14 +90,17 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 - Found the S1/S2 lead: a non-US 2016 HR-V Honda Connect is Fujitsu Ten / Tegra / Android 4.0.4, with working CarPlay+AA via dongle + app.
 - No T7W firmware found. US forums blocked from the sandbox.
 - NEXT: in-car fingerprinting (next-steps #1).
+- Version-page photo added (`docs/evidence/2026-10-21/`), matches the IDs.
+- UI survey: no app list / Unknown sources / licenses / System Updates / Display Repro in the US UI.
+- **S16: EX unit is Pioneer (CONFIRMED).** Prior art re-pointed to US Pioneer Android units (2016 Pilot / 2017 Civic), which are rooted (S17/S18). Pivot to root; goal = CarPlay-with-touch (Path 1). Wrote docs/root-access.md, rewrote carplay-feasibility.md. NEXT: in-car ADB-via-diag-menu (E1/P1).
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff
-- **CURRENT PHASE:** 1, platform identification
+- **CURRENT PHASE:** 2, root access + native CarPlay-with-touch (Path 1)
 - **LAST COMPLETED:** Phase 0 repo + first research pass + tools/tests
 - **FILES MODIFIED:** all files (initial commit)
 - **VERIFIED FINDINGS:** T7W identifiers (vehicle); S1 working dongle path on a non-US 2016 HR-V; S2 Tegra/ARMv7 libs; Honda dealer update mechanics (S6/S7)
 - **FAILED APPROACHES:** sandbox fetch of hrvforum/fitfreak/xda; exact-string searches for `1.E200`, `CVH-7738`; oemdtc A19-070 page
 - **OPEN QUESTIONS:** US T7W OS/SoC/supplier? APK install possible? Any T7W update package? Meaning of H14M / 2.5200.3501.45 / H42F10 / 35ZB2132?
-- **NEXT EXACT ACTION:** Jonah does next-steps #1 in the car and drops photos/notes in `docs/evidence/<date>/`; the next session updates hardware.md from them
+- **NEXT EXACT ACTION:** Jonah tries P1 in the car — diag menu → USB Role Host→Device → `adb devices`; if up, capture the read-only props to `docs/evidence/<date>/adb.txt`
 - **COMMAND TO RESUME:** `cd honda-t7w-re && cat CLAUDE.md docs/next-steps.md && python3 -m unittest discover -s tests`
