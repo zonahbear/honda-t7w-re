@@ -39,6 +39,11 @@ Format: date, decision, why, alternatives considered.
 - **Finding:** whether this firmware puts touch on the USB leg is UNKNOWN (Honda's doc says no control; the Pioneer platform could). Only a **USB capture** of a live HondaLink session settles it. Even best case, the Park video lock makes HDMI CarPlay Park-only, and impersonating the iPhone adds an iAP2/MFi auth problem — three blockers vs Path 1's one.
 - **Decision:** don't design/buy hardware now. Keep Path 1 (root) primary; fold the touch-on-the-wire check into the root work (read the unit's iAP/HondaLink service once ADB exists), or do a standalone USB capture if Jonah wants a definitive answer sooner.
 
+## 2026-10-21 D10: Target workflow = firmware injection over USB; signing gate decides viability
+- **What (Jonah):** obtain the USB-updatable official firmware, inject a projection client, re-update over USB. Documented end-to-end in docs/target-workflow.md.
+- **Honest gates:** (1) if the package is signed and the loader verifies it, a modified package is rejected — then the realistic routes are root-and-write-/system or bench-level reflash, not defeating signatures. (2) A CarPlay *receiver* needs Apple MFi regardless of firmware access, so an injected CarPlay client still needs the licensed dongle; **Android Auto is the only no-dongle projection.** (3) First flash of any modified image goes to a bench spare, per-action approval.
+- **Tooling decision:** do NOT write the repacker/verifier until the real container format is known (extends D4); inspect/extract are ready now.
+
 ## Dead ends so far
 - Fetching hrvforum / fitfreak / xda from the cloud sandbox: blocked. Read them locally instead.
 - Searching the exact firmware strings `1.E200`, `H14M` (beyond one forum hit), `CVH-7738`: nothing public.

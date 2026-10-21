@@ -13,3 +13,4 @@
 - S16: EX unit confirmed Pioneer (Honda parts catalog). Pivoted to root access; goal clarified as CarPlay-with-touch (Path 1). Added root-access.md, rewrote carplay-feasibility.md, logged root prior-art S17-S20.
 - D8: HDMI input = HondaLink, confirmed display-only (no touchscreen control of the source, S21). Path 2 closed; Path 1 (root) is the only touch route. Added docs/hdmi-hondalink.md.
 - Analyzed Jonah's HondaLink-impersonation dongle idea (hdmi-dongle-design.md): touch-on-the-wire UNKNOWN pending a USB capture; Park-lock + iAP2/MFi make it 3 blockers vs Path 1's 1. Not pursued over root.
+- Jonah set the target workflow: firmware → inject projection client → USB update. Wrote docs/target-workflow.md (pipeline + the signing/verify gate + Apple-auth reality: CarPlay needs the dongle, AA doesn't). Repacker deferred until the real container is known. Awaiting the firmware upload.

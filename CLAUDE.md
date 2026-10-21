@@ -16,9 +16,10 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - **Phase:** 2, root access + native CarPlay path (see [docs/root-access.md](docs/root-access.md), [docs/carplay-feasibility.md](docs/carplay-feasibility.md)). Phase 0-1 done.
 - **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; research S1-S20.
 - **Key finding:** the US EX unit is a **Pioneer** build (S16, CONFIRMED from Honda's parts catalog), **not** the Fujitsu Ten unit of the Brazilian HR-V (S1). So the real prior art is the **US Pioneer-era Honda Android units** (2016 Pilot, 2017 Civic), which are **rooted** via DirtyCow / diag-menu ADB (S17, S18). Android on the US T7W is now STRONGLY SUPPORTED (by family); version UNKNOWN.
+- **Target workflow (Jonah, 2026-10-21):** get the USB-updatable official firmware → analyze here → **inject a projection client → re-update over USB** ([target-workflow.md](docs/target-workflow.md)). Gated on whether the package is signed+verified (then root/bench reflash instead). CarPlay still needs the dongle for Apple auth; **Android Auto is the only no-dongle projection**. Root (Path 1) stays the parallel track.
 - **Chosen path:** Path 1 (root → dongle + custom app forwarding factory touch). Path 2 (HDMI dongle) **closed**: the HDMI input is the HondaLink input and Honda confirms the touchscreen can't control the source — no touch-back channel (S21, hdmi-hondalink.md). A HondaLink-impersonation dongle (Jonah's idea) is analyzed in hdmi-dongle-design.md: touch-on-the-wire is UNKNOWN (needs a USB capture) and even best case is Park-only — not pursued over Path 1.
 - **Blockers:** no root/ADB yet; no T7W firmware; US forums (incl. the fitfreak "iroot" lead S19) unreadable from the sandbox.
-- **Next action:** in-car **E1** — diag-menu USB role Host→Device → see if ADB enumerates (read-only); read S17/S18/S19 locally. See root-access.md "Immediate plan".
+- **Next action:** **Jonah uploads the official firmware to this thread.** On arrival: hash → `inspect_firmware.py` → unpack → OS/kernel/chip + the **signing gate** (target-workflow.md stage 4). In parallel, in-car E1 (ADB via diag menu).
 
 ## 3. Repository map
 | Path | Purpose |
@@ -41,6 +42,8 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 | `docs/root-access.md` | **root entry points E1-E4 (ADB/DirtyCow/update/UART), ranked** + immediate plan |
 | `docs/hdmi-hondalink.md` | why the HDMI/HondaLink input is display-only (no touch) → plain Path 2 closed |
 | `docs/hdmi-dongle-design.md` | design-feasibility of a HondaLink-impersonation dongle (touch UNKNOWN; Park-only; not pursued over Path 1) |
+| `docs/target-workflow.md` | **end-to-end plan: firmware → inject projection client → USB update**, with the signing gate + repack pipeline |
+| `docs/firmware.md` | acquisition channels + **what an official image unlocks** + analysis workflow |
 | `docs/recovery.md` | safety rules, risk tiers 0-4 |
 | `docs/next-steps.md` | ranked experiments, decision gate, unknowns |
 | `docs/session-log.md` | dated history |

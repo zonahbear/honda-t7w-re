@@ -22,6 +22,12 @@
 - **Approval:** (c) costs money and is Jonah's call.
 - **Expected output:** filled rows in `firmware/README.md` / `docs/firmware.md`.
 
+## Target workflow (Jonah, 2026-10-21) — firmware injection over USB
+End-to-end plan in [target-workflow.md](target-workflow.md). Trigger: **Jonah uploads the official T7W firmware to this thread.**
+- On arrival (all read-only): hash + log in firmware/README.md → `inspect_firmware.py --json` → unpack → confirm OS/kernel/chip → **the signing/verify gate** (decides if injection-then-USB-update is even possible).
+- If the gate is favorable: design client injection (Android Auto = no dongle; CarPlay still needs the dongle for Apple auth), then write the repack+verify tool for the real container, produce a candidate package **without flashing**.
+- First flash of any modified package → **bench spare**, with per-action approval. Never the daily driver first.
+
 ## Phase 2 experiments (root + CarPlay-with-touch) — added 2026-10-21
 Ranked; all start Tier 0-1 (observe / read-only). Detail in [root-access.md](root-access.md) and [carplay-feasibility.md](carplay-feasibility.md).
 
