@@ -15,7 +15,8 @@ Photo of the Version page (Application / DBOOT / Software loader / System μCom)
 | DBOOT | H14M DA US 3.26 |
 | Software loader | 2.5200.3501.45 |
 | System μCom | H42F10 21.35.12 |
-| Device number | 35ZB2132 |
+| Device number | 35ZB2132 (Jonah re-confirmed it 2026-10-21; not photographed) |
+| VIN prefix | `3CZRU5H5XGM…`. Serial omitted because this repo is public; Jonah has the full VIN. Check digit `X` validates. `3` = built in Mexico, `G` = 2016 model year (standard VIN rules). Plant `M` = Celaya and model code `RU5` = HR-V 2WD are HYPOTHESIS. |
 | Display | Factory 7" touchscreen |
 | USB | 2 ports, flash-drive media works |
 | HDMI input | Present |
