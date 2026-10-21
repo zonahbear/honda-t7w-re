@@ -1,0 +1,4 @@
+# Optional helpers for deeper analysis. tools/*.py themselves need only the stdlib.
+capstone>=5.0        # ARM/Thumb disassembly from Python
+pyelftools>=0.31     # ELF parsing
+pyusb>=1.2.1         # USB experiments with projection dongles on the PC

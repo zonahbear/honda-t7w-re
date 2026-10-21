@@ -1,0 +1,26 @@
+# Never commit firmware, dumps, or bulky analysis output.
+firmware/*
+!firmware/README.md
+analysis/*
+!analysis/README.md
+*.bin
+*.img
+*.mdt
+*.zip
+*.apk
+*.jar
+*.iso
+extracted/
+_*.extracted/
+
+# Python / tooling
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+ghidra_projects/
+
+# Secrets (should never exist here anyway)
+.env
+*.pem
+*.key
