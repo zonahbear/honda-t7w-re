@@ -9,3 +9,4 @@
 - Blocked: hrvforum, fitfreak and xda can't be reached from the sandbox. No T7W firmware found.
 - NEXT: in-car fingerprinting (docs/next-steps.md #1).
 - Later the same day: Jonah photographed the diag Version page. It matches the recorded identifiers and was added to docs/evidence/2026-10-21/ with EXIF stripped. The rest of next-steps #1 is still open.
+- UI survey (Jonah): no app list, Unknown sources, licenses, System Updates or Display Repro. Install path not exposed in the US UI. A bench-spare unit was proposed.

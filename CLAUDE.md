@@ -16,7 +16,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; first research pass (S1-S14).
 - **Big lead:** a probably-Brazilian 2016 HR-V EX-L runs a Fujitsu Ten "MY15ADA" Android 4.0.4 / Tegra unit, and [carlinkit-honda-connect](https://github.com/rsilveira/carlinkit-honda-connect) gets working CarPlay + AA on it via a Carlinkit CPC200 dongle + custom app (S1, S2). **Whether the US T7W is the same box is UNKNOWN.**
 - **Blockers:** no T7W firmware. US-forum evidence unreadable from the sandbox. The OS question needs observations in the car.
-- **Next action:** in-car fingerprinting, [docs/next-steps.md](docs/next-steps.md) #1.
+- **Next action:** the USB `HondaAppCenter_A1.apk` file-name test (next-steps #1.4), the forum threads (#2), then decide on a bench-spare unit (next-steps "Status").
 
 ## 3. Repository map
 | Path | Purpose |
@@ -82,7 +82,8 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 - Found the S1/S2 lead: a non-US 2016 HR-V Honda Connect is Fujitsu Ten / Tegra / Android 4.0.4, with working CarPlay+AA via dongle + app.
 - No T7W firmware found. US forums blocked from the sandbox.
 - NEXT: in-car fingerprinting (next-steps #1).
-- Version-page photo added (`docs/evidence/2026-10-21/`), matches the IDs. Rest of #1 still open.
+- Version-page photo added (`docs/evidence/2026-10-21/`), matches the IDs.
+- UI survey: no app list, Unknown sources, licenses, System Updates or Display Repro. The S1 install path isn't exposed in the US UI. NEXT: the USB file-name test, forum threads, and a bench-spare decision.
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff

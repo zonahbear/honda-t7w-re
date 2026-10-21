@@ -22,6 +22,11 @@
 - **Approval:** (c) costs money and is Jonah's call.
 - **Expected output:** filled rows in `firmware/README.md` / `docs/firmware.md`.
 
+## Status 2026-10-21
+- #1 steps 1-3 done: nothing Android-like visible, and no Display Repro (see hardware.md "UI survey"). Step 4 (empty `HondaAppCenter_A1.apk` on USB port 1) is still worth doing: on S1's unit the install path is triggered by the file name, so the US software could still react to it even without an app list.
+- The gate below now leans toward the "No app install" branch unless step 4, the forum threads (#2), or an unexpected USB reaction says otherwise.
+- New candidate experiment (needs Jonah's OK, costs ~$100-200): buy a **used T7W EX unit** (`39100-T7W-A013-M1` or the matching part number) as a bench spare. Open it to identify the SoC, flash chips and debug headers without touching the car. This is the fastest route to a definite answer on OS and SoC.
+
 ## Decision gate after #1-#2
 
 - **App install works on T7W** → move to Approach A′/A. Next experiment is a Tier 2 test (**needs Jonah's approval**): install a harmless known APK and check it uninstalls cleanly, then evaluate OpenDroidAuto (AA) and carlinkit-hrv (CarPlay + AA) builds.

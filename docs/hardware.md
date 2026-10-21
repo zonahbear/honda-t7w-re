@@ -25,7 +25,10 @@ Photo of the Version page (Application / DBOOT / Software loader / System μCom)
 
 Diag menu items: Monitor Check, B-CAN, Unit Check, F-CAN, Audio Check, Version, Guideline Setup, Vehicle Status, Functional Setup, GPS Information.
 
-Still to record from the car (zero risk, see [next-steps.md](next-steps.md)): the Honda part number on the unit label (`39100-T7W-…`), every sub-page of Unit Check / Version, and whether Functional Setup contains **Display Repro**.
+**UI survey, 2026-10-21 (Jonah, reported in chat, no photos):** the user UI has **no** app list or "Install app" icon, **no** "Unknown sources", **no** open-source licenses page, and **no** "System Updates" entry. Diag → Functional Setup has **no** "Display Repro". All of these are CONFIRMED absent from the menus Jonah checked.
+Implication: the S1 install path (app list → Install app, `HondaAppCenter_A1.apk`) **isn't exposed in the US UI**. That's DISPROVEN for T7W *as a menu feature*. It doesn't show the OS isn't Android: a US skin could hide it. The dealer update entry point is also unlike the 2016 Civic / CR-V (S6, S7), so how T7W gets updated is UNKNOWN.
+
+Still to record: the Honda part number on the unit label (`39100-T7W-…`) and photos of the Unit Check sub-pages.
 
 ## 2. Platform claims
 
@@ -33,7 +36,7 @@ Still to record from the car (zero risk, see [next-steps.md](next-steps.md)): th
 |---|---|---|---|
 | OEM (who built the box) | **HYPOTHESIS** | Fujitsu Ten (now Denso Ten) | A 2016 HR-V EX-L whose market isn't stated (probably Brazil) runs a "FUJITSU-TEN MY15ADA" unit (S1). The T7W name, "DA" in DBOOT, and the same model year are consistent with that but don't prove it. |
 | CPU / SoC | **HYPOTHESIS** for T7W; **STRONGLY SUPPORTED** for that HR-V unit | NVIDIA Tegra family, 32-bit ARMv7 | System libs pulled from an HR-V Honda Connect unit (S2) are ARM EABI5, and `libstagefright.so` lists `OMX.Nvidia.h264.decode` and `media.tegra.*` properties. NVIDIA said in 2014 that Honda Connect uses Tegra (S4). Exact Tegra part: **UNKNOWN**. |
-| OS | **HYPOTHESIS** for T7W | Android 4.0.4 (API 15) | Same as above: that HR-V unit reports API 15 (S1). The brief says not to assume this for the US T7W, and nothing here contradicts that caution: **no US-unit evidence has been seen yet**. Titles of US-forum threads (fitfreak "iroot on Display Audio, installing other apps"; hrvforum "What's the OS in the NA HR-V's head unit?", "Installing APK Files From USB") suggest US owners have probed this, but those pages could not be fetched from this environment (see research.md). |
+| OS | **HYPOTHESIS** for T7W | Android 4.0.4 (API 15) | Same as above: that HR-V unit reports API 15 (S1). The brief says not to assume this for the US T7W, and nothing here contradicts that caution: **no direct US-unit evidence yet**, and the US UI hides every Android tell we checked (see the UI survey above), which weakly lowers this hypothesis. Titles of US-forum threads (fitfreak "iroot on Display Audio, installing other apps"; hrvforum "What's the OS in the NA HR-V's head unit?", "Installing APK Files From USB") suggest US owners have probed this, but those pages could not be fetched from this environment (see research.md). |
 | Older Honda SH/WinCE platform | **UNKNOWN** (not ruled out) | The 2013-15 Accord/Odyssey nav units update ERATO / SH-BOOT / SH-IPL / SH-NK from DVD (S8): a Renesas SH + WinCE-style layout. Its version screen also has a "DBOOT" field, so the field name alone tells us nothing about the T7W's OS. |
 | 10th-gen Civic platform (Mitsubishi, Tegra 3, Android 4.2.2) | **Not the same unit** (STRONGLY SUPPORTED) | Different supplier and model generation (S3, S13). Its update/signing findings **must not** be assumed to apply to T7W. |
 | RAM / flash layout | **UNKNOWN** | Diag self-test says both OK; nothing else is known. |
