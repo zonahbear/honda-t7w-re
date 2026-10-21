@@ -30,6 +30,10 @@ Format: date, decision, why, alternatives considered.
 - **Rejected for now:** pure-native CarPlay (no dongle) — still needs Apple MFi + licensed stack (D2 stands).
 - **Rule kept:** no flashing / exploit execution / recovery writes without Jonah's approval. Read-only ADB is fine; running DirtyCow is not, until approved.
 
+## 2026-10-21 D8: HDMI/HondaLink path is display-only — Path 2 closed
+- **Why:** Jonah noted the HDMI input is the HondaLink input. Checked whether HondaLink passes factory touch back over USB (which would revive Path 2). Honda's own HR-V material and a Fit hands-on both say the touchscreen cannot control the HDMI source (S21). No touch-back channel to impersonate.
+- **Consequence:** Path 2 (HDMI AI-box) cannot give CarPlay-with-touch here. Path 1 (root) is the sole route. See docs/hdmi-hondalink.md.
+
 ## Dead ends so far
 - Fetching hrvforum / fitfreak / xda from the cloud sandbox: blocked. Read them locally instead.
 - Searching the exact firmware strings `1.E200`, `H14M` (beyond one forum hit), `CVH-7738`: nothing public.

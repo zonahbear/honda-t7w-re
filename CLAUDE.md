@@ -16,7 +16,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - **Phase:** 2, root access + native CarPlay path (see [docs/root-access.md](docs/root-access.md), [docs/carplay-feasibility.md](docs/carplay-feasibility.md)). Phase 0-1 done.
 - **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; research S1-S20.
 - **Key finding:** the US EX unit is a **Pioneer** build (S16, CONFIRMED from Honda's parts catalog), **not** the Fujitsu Ten unit of the Brazilian HR-V (S1). So the real prior art is the **US Pioneer-era Honda Android units** (2016 Pilot, 2017 Civic), which are **rooted** via DirtyCow / diag-menu ADB (S17, S18). Android on the US T7W is now STRONGLY SUPPORTED (by family); version UNKNOWN.
-- **Chosen path:** Path 1 (root → dongle + custom app forwarding factory touch). Path 2 (HDMI dongle) likely can't give touch (HDMI input is display-only on the sibling Fit, S5).
+- **Chosen path:** Path 1 (root → dongle + custom app forwarding factory touch). Path 2 (HDMI dongle) **closed**: the HDMI input is the HondaLink input and Honda confirms the touchscreen can't control the source — no touch-back channel (S21, hdmi-hondalink.md).
 - **Blockers:** no root/ADB yet; no T7W firmware; US forums (incl. the fitfreak "iroot" lead S19) unreadable from the sandbox.
 - **Next action:** in-car **E1** — diag-menu USB role Host→Device → see if ADB enumerates (read-only); read S17/S18/S19 locally. See root-access.md "Immediate plan".
 
@@ -39,6 +39,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 | `docs/architecture.md` | repo data flow + hypothesized T7W model |
 | `docs/decisions.md` | decisions D1-D5 + dead ends |
 | `docs/root-access.md` | **root entry points E1-E4 (ADB/DirtyCow/update/UART), ranked** + immediate plan |
+| `docs/hdmi-hondalink.md` | why the HDMI/HondaLink input is display-only (no touch) → Path 2 closed |
 | `docs/recovery.md` | safety rules, risk tiers 0-4 |
 | `docs/next-steps.md` | ranked experiments, decision gate, unknowns |
 | `docs/session-log.md` | dated history |

@@ -23,13 +23,13 @@ What it needs on the **Pioneer US T7W**:
 
 **Verdict:** the only path that gives real CarPlay-with-touch on the factory screen. Gated on root (root-access.md) and on re-solving the integration for Pioneer rather than Fujitsu Ten.
 
-### Path 2 — Dongle into the HDMI input
-A wireless CarPlay "AI box" into the factory **HDMI input**. The open question is **touch passthrough**: the box needs the screen's coordinates, and factory HDMI inputs are usually **display-only**.
-- The 2015 Fit HDMI input is documented as **video-only, no touch, and Park-locked** (S5; HYPOTHESIS the HR-V matches). If the HR-V behaves the same, **Path 2 cannot deliver touch**, full stop — you'd be poking a phone UI you can't touch, only in Park. Useless for CarPlay.
-- Making it work would require a touch back-channel the factory HDMI path doesn't expose, plus defeating the Park lock (a safety interlock — **out of scope**, recovery.md).
-- **Verdict:** very unlikely to meet the "with touch" bar on this unit. Fallback only, and probably a dead one here.
+### Path 2 — Dongle into the HDMI / HondaLink input  (CONFIRMED not viable for touch — see [hdmi-hondalink.md](hdmi-hondalink.md))
+The HDMI input is the **HondaLink** input (Jonah). It was worth checking whether HondaLink passes factory-touch back to the phone over the USB leg of its cable kit — if so, a dongle could impersonate that endpoint.
+- **It does not.** Honda's own 2016 HR-V material states the input "does not allow control of the connected device through the touchscreen," and a Fit hands-on quotes Honda: "you have to use the device itself" (S21). It's Park-locked video + phone-side control only. There is **no touch-back channel to feed**.
+- Making it work would mean inventing a channel the firmware doesn't expose, plus defeating the Park lock (a safety interlock — **out of scope**, recovery.md).
+- **Verdict:** dead for CarPlay-with-touch on this unit. Not even a real fallback.
 
-> Note: the common "CarPlay AI box" that *does* have touch is sold for head units that **already run Android and expose their touch layer to apps** — i.e. it's really Path 1 in a box. On a locked Pioneer unit with a display-only HDMI in, that doesn't apply.
+> The aftermarket Pioneer AppRadio *did* carry touch over USB, but that's a Pioneer consumer product. The Pioneer-built *Honda* DA ships only the display-only HDMI feature above.
 
 ## Recommendation
 Pursue **Path 1**. Concretely: get **ADB/root** (root-access.md E1→E2), confirm Android version + that an app can read touch and host the dongle, then port an S1-style receiver app to the Pioneer framework. Path 2 is kept only as a fallback and is likely blocked by the HDMI input being display-only.
@@ -38,5 +38,5 @@ Pursue **Path 1**. Concretely: get **ADB/root** (root-access.md E1→E2), confir
 
 ## Confidence
 - CarPlay needs a licensed dongle for auth: **0.95**.
-- Path 2 can't give touch on this unit as-is: **0.7** (rests on the HR-V HDMI matching the Fit's documented display-only behaviour — needs an in-car check).
+- Path 2 can't give touch on this unit: **0.9** (Honda's own HR-V material + a Fit hands-on both say the touchscreen can't control the HDMI/HondaLink source — S21, hdmi-hondalink.md).
 - Path 1 is technically achievable *if* root lands: **0.6** (Android is likely; the Pioneer integration is unproven and is real work).

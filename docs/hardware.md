@@ -46,7 +46,7 @@ Still to record: the Honda part number on the unit label (`39100-T7W-…`) and p
 | Video decode | **HYPOTHESIS** | If it's Tegra, there's hardware H.264 decode through OMX (S2). Projection video is H.264, so this matters a lot. |
 | USB host | **CONFIRMED** host for mass storage | Can it host a vendor-class bulk device (Carlinkit) or AOAP (Android Auto)? **UNKNOWN** for T7W; demonstrated on the S1 unit. |
 | Touch | **CONFIRMED** capacitive, 800×480 WVGA panel (2015 Fit Display Audio spec, S5); HR-V panel resolution is **HYPOTHESIS** (same generation) |
-| HDMI input | **CONFIRMED** present | 2015 Fit docs: shows video only in Park, and touch does not control the source (S5). Same behaviour on HR-V: **HYPOTHESIS**. |
+| HDMI input | **CONFIRMED** present; it's the **HondaLink** input | Honda's 2016 HR-V material: Park-only video, uses USB+HDMI (HondaLink iOS cable kit), and **"does not allow control of the connected device through the touchscreen"**. Fit hands-on agrees: "you have to use the device itself" (S21). No touch-back channel. See [hdmi-hondalink.md](hdmi-hondalink.md). |
 | Mic / audio routing | **UNKNOWN** for T7W | S1 reached the mic (with echo cancellation) and exclusive audio through Fujitsu Ten framework services (`ecncservice`, `modemanagement`). |
 | LX trim radio | **CONFIRMED** different unit | LX uses a Panasonic tuner (39100-T7W-A71x, S10). Don't mix LX evidence with the EX 7" unit. |
 
