@@ -1,31 +1,42 @@
-# Apple CarPlay feasibility (preliminary, 2026-10-21)
+# Apple CarPlay on the T7W, with touch (2026-10-21)
 
-## How CarPlay works
+**Goal:** CarPlay on the factory 7" screen, operable by the factory touchscreen — not a Park-only mirrored video feed.
 
-- The **iPhone renders the UI** and streams H.264 video plus audio to the "receiver" (the head unit), over USB (iAP2 + NCM) or Wi-Fi (after Bluetooth setup). The receiver sends back touch, knob and mic data.
-- The receiver must prove it's a licensed accessory: an Apple **MFi authentication coprocessor** signs a challenge, and the receiver software comes from Apple's licensed CarPlay communication plug-in. **No open-source receiver gets past authentication without an MFi chip** (STRONGLY SUPPORTED: every DIY solution, including S1, uses a dongle that contains the licensed part).
-- **Screen mirroring is not CarPlay.** HDMI from an iPhone (S5) mirrors the phone screen with no CarPlay UI and no touch.
+## How CarPlay works (and where touch comes from)
+- The **iPhone renders the UI** and streams H.264 video + audio to the "receiver". The receiver sends **touch coordinates, knob/button and mic** back to the phone. Transport is USB (iAP2 + NCM) or Wi-Fi after a Bluetooth handshake.
+- The receiver must authenticate as a licensed accessory via an Apple **MFi coprocessor** + Apple's CarPlay plug-in. **No open-source receiver passes auth without that chip** (STRONGLY SUPPORTED — every DIY build, S1 included, puts the licensed part in a dongle).
+- **Touch is the crux of this project.** CarPlay is useless without the screen sending coordinates back. Mirroring an iPhone over HDMI (S5) gives video only, no CarPlay UI, no touch.
 
-## Approaches
+## The two viable architectures
 
-| | Approach | Feasibility | Evidence |
-|---|---|---|---|
-| A | Truly native: CarPlay stack running in the T7W OS, no extra hardware | **Not feasible** (high confidence) | No MFi chip in the unit, no licensed stack, and Android 4.0.4 (if that's what it is) would need the whole receiver ported. |
-| A′ | **"Adapter-native"**: CarPlay-to-Android dongle (Carlinkit CPC200 class, USB `1314:1521`) on the factory USB port, plus a **custom app on the factory OS** that shows the H.264 stream, forwards touch, and routes audio/mic | **Demonstrated on a non-US 2016 HR-V** (S1). **UNKNOWN on T7W**, because it depends on T7W being the same Android box and allowing APK installs | S1: video, touch, steering keys, calls, AA and CarPlay all working. Known issues: Wi-Fi stutter, and the app gets killed by the TALK button. |
-| B | External receiver box plus modified factory firmware to show its output | Only needed if A′ is impossible. Needs firmware we don't have. | — |
-| C | HDMI input from a CarPlay "AI box" | **Weak fallback** | Video only in Park and no touch passthrough (S5, Fit doc, HYPOTHESIS for HR-V). Getting around the Park lock would mean bypassing a safety interlock, which is out of scope. |
+### Path 1 — Integrated / native (root the unit, app drives the factory touch)
+A CarPlay-to-Android **dongle** (Carlinkit CPC200 class, USB `1314:1521`) does the Apple auth and phone link; a **custom app on the factory OS** displays the dongle's H.264 output and forwards the factory touchscreen's coordinates back to the dongle. The factory panel stays the input device, so **touch works by construction** — this is exactly what S1 achieved on the (Fujitsu Ten) Brazilian HR-V: video, touch, steering keys, calls.
 
-## Recommendation (preliminary)
-
-Approach A′ is the only realistic factory-screen path. Pure-native CarPlay isn't happening without Apple's licensed parts (sorry). Everything hinges on one question: **can the US T7W install and run a third-party APK?** See [next-steps.md](next-steps.md).
-
-## Requirements checklist for A′ on T7W
-
-| Need | Status on T7W |
+What it needs on the **Pioneer US T7W**:
+| Requirement | Status |
 |---|---|
-| USB host that can talk to a vendor-class bulk device | UNKNOWN |
-| A way to install an app | UNKNOWN (rename trick works on S1's unit) |
-| H.264 hardware decode reachable from an app | HYPOTHESIS (Tegra OMX, S2) |
-| Permission to keep video on while driving / exclusive audio | UNKNOWN (HondaPermissions whitelist on S1) |
-| Mic capture | UNKNOWN (S1 uses the Fujitsu Ten `ecncservice`) |
-| Steering-wheel keys | UNKNOWN (S1 uses `ISteeringMenuService`) |
+| It's Android and runs third-party code | STRONGLY SUPPORTED it's Android (S17/S18 Pioneer siblings); running our code needs **root/ADB** (root-access.md), since the US UI exposes no app install (hardware.md UI survey) |
+| USB host can talk to a vendor-class bulk device | UNKNOWN (demonstrated on S1's unit) |
+| H.264 decode reachable from an app | HYPOTHESIS (sibling Android units have HW decode; the Pioneer SoC is UNKNOWN) |
+| Touch events readable + forwardable by an app | HYPOTHESIS — the native integration is the whole point; S1 did it on its unit |
+| Keep video while moving / audio routing / mic / wheel keys | UNKNOWN on Pioneer (S1 solved these via the Fujitsu Ten framework, which **won't be present** on a Pioneer unit — this is the biggest port risk) |
+
+**Verdict:** the only path that gives real CarPlay-with-touch on the factory screen. Gated on root (root-access.md) and on re-solving the integration for Pioneer rather than Fujitsu Ten.
+
+### Path 2 — Dongle into the HDMI input
+A wireless CarPlay "AI box" into the factory **HDMI input**. The open question is **touch passthrough**: the box needs the screen's coordinates, and factory HDMI inputs are usually **display-only**.
+- The 2015 Fit HDMI input is documented as **video-only, no touch, and Park-locked** (S5; HYPOTHESIS the HR-V matches). If the HR-V behaves the same, **Path 2 cannot deliver touch**, full stop — you'd be poking a phone UI you can't touch, only in Park. Useless for CarPlay.
+- Making it work would require a touch back-channel the factory HDMI path doesn't expose, plus defeating the Park lock (a safety interlock — **out of scope**, recovery.md).
+- **Verdict:** very unlikely to meet the "with touch" bar on this unit. Fallback only, and probably a dead one here.
+
+> Note: the common "CarPlay AI box" that *does* have touch is sold for head units that **already run Android and expose their touch layer to apps** — i.e. it's really Path 1 in a box. On a locked Pioneer unit with a display-only HDMI in, that doesn't apply.
+
+## Recommendation
+Pursue **Path 1**. Concretely: get **ADB/root** (root-access.md E1→E2), confirm Android version + that an app can read touch and host the dongle, then port an S1-style receiver app to the Pioneer framework. Path 2 is kept only as a fallback and is likely blocked by the HDMI input being display-only.
+
+**The gating question is no longer "can it run an app" in the abstract — it's "can we get root and read/forward touch on this Pioneer unit."**
+
+## Confidence
+- CarPlay needs a licensed dongle for auth: **0.95**.
+- Path 2 can't give touch on this unit as-is: **0.7** (rests on the HR-V HDMI matching the Fit's documented display-only behaviour — needs an in-car check).
+- Path 1 is technically achievable *if* root lands: **0.6** (Android is likely; the Pioneer integration is unproven and is real work).

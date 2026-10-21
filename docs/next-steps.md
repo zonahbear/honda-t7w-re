@@ -22,6 +22,22 @@
 - **Approval:** (c) costs money and is Jonah's call.
 - **Expected output:** filled rows in `firmware/README.md` / `docs/firmware.md`.
 
+## Phase 2 experiments (root + CarPlay-with-touch) — added 2026-10-21
+Ranked; all start Tier 0-1 (observe / read-only). Detail in [root-access.md](root-access.md) and [carplay-feasibility.md](carplay-feasibility.md).
+
+### P1. Try to enable ADB via the diag menu (E1) — do this first
+- In the car, enter the diagnostic menu and look for a **USB "Role" = Host/Device** setting. Switch Host→Device, connect a USB-A↔USB-A cable to a laptop, and run `adb devices`.
+- If it enumerates: read-only capture `adb shell getprop ro.build.version.release ro.build.fingerprint; uname -a; cat /proc/cpuinfo; mount; ls -l /system/xbin/su /system/bin/su`. Save to `docs/evidence/<date>/adb.txt`.
+- Output: OS, Android version, SoC, kernel date, whether root already exists. This alone decides the whole platform question and whether DirtyCow (E2) could apply.
+- **Don't** run any exploit or write anything yet (that's Tier 2+, Jonah approves).
+
+### P2. Read the sibling root guides + the HR-V/Fit lead (no car)
+- fitfreak "iroot on Display Audio" (S19), the 2016 Pilot root guide + `jersacct/2016PilotOneClick` (S17), the 2017 Civic developer-mode guide (S18). Save to `docs/sources/`.
+- Output: exact menu combos, exploit used, kernel/Android versions on the sibling Pioneer/Mitsubishi units.
+
+### P3. Settle the HDMI touch question (Path 2 fallback)
+- In the car: feed the HDMI input (any source), confirm whether it's **Park-only** and whether the touchscreen does anything to the source. Expected (from S5): display-only, no touch. If so, Path 2 is dead for CarPlay-with-touch; record it.
+
 ## Status 2026-10-21
 - #1 steps 1-3 done: nothing Android-like visible, and no Display Repro (see hardware.md "UI survey"). Step 4 (empty `HondaAppCenter_A1.apk` on USB port 1) is still worth doing: on S1's unit the install path is triggered by the file name, so the US software could still react to it even without an app list.
 - The gate below now leans toward the "No app install" branch unless step 4, the forum threads (#2), or an unexpected USB reaction says otherwise.

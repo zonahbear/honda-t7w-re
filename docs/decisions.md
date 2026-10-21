@@ -20,6 +20,16 @@ Format: date, decision, why, alternatives considered.
 ## 2026-10-21 D5: Repo built in the cloud sandbox, mirrored to project files
 - **Why:** no GitHub repo existed at first. Update 2026-10-21: Jonah created `zonahbear/honda-t7w-re` and this history was pushed there. GitHub is now canonical; the project-files copy is a stale snapshot.
 
+## 2026-10-21 D6: US EX unit confirmed Pioneer; prior art re-pointed
+- **What:** Honda's parts catalog (S16) marks the 2016 HR-V EX display/audio unit `39100-T7W-A01…` as (PIONEER). This is a different supplier from S1's Fujitsu Ten MY15ADA (a non-US HR-V).
+- **Consequence:** S1/S2 (Fujitsu Ten, Tegra, Android 4.0.4) drop from "lead" to "weaker analogy". The real analogues are the US Pioneer Honda Android units — 2016 Pilot, 2017 Civic — which are rooted (S17, S18). The Pioneer unit lacks the Fujitsu Ten framework S1 relied on, so that integration must be re-solved.
+
+## 2026-10-21 D7: Focus pivoted to root access; goal is CarPlay-with-touch (Path 1)
+- **Why (Jonah):** the end goal is CarPlay on the factory screen *with touch*. That needs the factory panel to drive the session, which needs our code on the unit, which needs root (no app-install UI exists — hardware.md survey).
+- **Chosen:** Path 1 (root → Carlinkit-class dongle for Apple auth + a custom app that shows H.264 and forwards factory touch). Path 2 (HDMI AI-box) is fallback and probably can't deliver touch on this unit (HDMI input display-only on the sibling Fit, S5).
+- **Rejected for now:** pure-native CarPlay (no dongle) — still needs Apple MFi + licensed stack (D2 stands).
+- **Rule kept:** no flashing / exploit execution / recovery writes without Jonah's approval. Read-only ADB is fine; running DirtyCow is not, until approved.
+
 ## Dead ends so far
 - Fetching hrvforum / fitfreak / xda from the cloud sandbox: blocked. Read them locally instead.
 - Searching the exact firmware strings `1.E200`, `H14M` (beyond one forum hit), `CVH-7738`: nothing public.

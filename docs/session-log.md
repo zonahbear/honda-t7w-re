@@ -10,3 +10,4 @@
 - NEXT: in-car fingerprinting (docs/next-steps.md #1).
 - Later the same day: Jonah photographed the diag Version page. It matches the recorded identifiers and was added to docs/evidence/2026-10-21/ with EXIF stripped. The rest of next-steps #1 is still open.
 - UI survey (Jonah): no app list, Unknown sources, licenses, System Updates or Display Repro. Install path not exposed in the US UI. A bench-spare unit was proposed.
+- S16: EX unit confirmed Pioneer (Honda parts catalog). Pivoted to root access; goal clarified as CarPlay-with-touch (Path 1). Added root-access.md, rewrote carplay-feasibility.md, logged root prior-art S17-S20.
