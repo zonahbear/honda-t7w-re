@@ -16,7 +16,8 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; first research pass (S1-S14).
 - **Big lead:** a probably-Brazilian 2016 HR-V EX-L runs a Fujitsu Ten "MY15ADA" Android 4.0.4 / Tegra unit, and [carlinkit-honda-connect](https://github.com/rsilveira/carlinkit-honda-connect) gets working CarPlay + AA on it via a Carlinkit CPC200 dongle + custom app (S1, S2). **Whether the US T7W is the same box is UNKNOWN.**
 - **Blockers:** no T7W firmware. US-forum evidence unreadable from the sandbox. The OS question needs observations in the car.
-- **Next action:** in-car fingerprinting, [docs/next-steps.md](docs/next-steps.md) #1.
+- **Linux prototype (2026-11-08):** main line = stock Carlinkit CCPA-class dongle + node-carplay/react-carplay (S18), the same protocol S1 runs on the HR-V. LIVI (S15) does true wired CarPlay but **needs an MFi chip** (I²C) or a LIVI Link (reflashed dongle). Build deps verified; build/run pending on CachyOS. See [docs/carplay-client-linux.md](docs/carplay-client-linux.md).
+- **Next action:** in-car fingerprinting, [docs/next-steps.md](docs/next-steps.md) #1; in parallel, LIVI on CachyOS.
 
 ## 3. Repository map
 | Path | Purpose |
@@ -34,6 +35,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 | `docs/research.md` | **sources S1-S14**, blocked paths, search terms, **compatibility matrix** |
 | `docs/firmware.md` | acquisition channels + status, format notes, analysis workflow |
 | `docs/carplay-feasibility.md` / `docs/android-auto-feasibility.md` | approach A/A′/B/C scoring |
+| `docs/carplay-client-linux.md` | Linux CarPlay receiver survey + LIVI setup (prototype before the head unit) |
 | `docs/architecture.md` | repo data flow + hypothesized T7W model |
 | `docs/decisions.md` | decisions D1-D5 + dead ends |
 | `docs/recovery.md` | safety rules, risk tiers 0-4 |
@@ -54,6 +56,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - D3: native AA (OpenDroidAuto-style, no dongle) stays a candidate.
 - D4: tools stay stdlib-only and read-only. No speculative format parsers.
 - D5: canonical repo is github.com/zonahbear/honda-t7w-re (created 2026-10-21).
+- D6: Linux CarPlay prototype = LIVI + a real MFi chip (I²C or LIVI Link). No extracted/borrowed accessory identities.
 
 ## 6. Commands
 ```bash
@@ -82,6 +85,11 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 - Found the S1/S2 lead: a non-US 2016 HR-V Honda Connect is Fujitsu Ten / Tegra / Android 4.0.4, with working CarPlay+AA via dongle + app.
 - No T7W firmware found. US forums blocked from the sandbox.
 - NEXT: in-car fingerprinting (next-steps #1).
+2026-11-08
+- Surveyed Linux CarPlay receivers (S15-S18). LIVI = best; MFi chip still mandatory for CarPlay, AA needs none.
+- Sandbox: deps installed, LIVI build refused by sandbox policy. Steps for CachyOS in docs/carplay-client-linux.md.
+- node-carplay/react-carplay read (S18): S1's protocol is derived from it. Main line for T7W.
+- NEXT: buy a CCPA-class dongle, bench it on CachyOS with react-carplay at 800×480 (docs/carplay-client-linux.md).
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff
