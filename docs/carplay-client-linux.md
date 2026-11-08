@@ -4,6 +4,8 @@ Goal: get a **wired** CarPlay session running on an ordinary Linux box first, as
 
 ## TL;DR
 
+- **Update after the deep dive below:** for the actual T7W goal, the **stock Carlinkit dongle + node-carplay protocol** is the main line (same protocol S1 runs on a 2016 HR-V, no chip work, no reflash). LIVI is the true-wired Linux option.
+
 - **Best Linux candidate: [LIVI](https://github.com/f-io/LIVI) (S15).** Rust + Slint + GStreamer, GPL-3.0-or-later, actively developed (last commit 2026-11-07). It implements the CarPlay **accessory side natively**, wired and wireless, plus Android Auto. Wired CarPlay runs "directly over the USB cable (no OTG required)" via usbmux/lockdown (CONFIRMED from its README and `native/crates/iap2-wired`).
 - **The hard blocker is still the MFi chip.** LIVI's README: the MFi authentication coprocessor "cannot be emulated and … LIVI neither ships nor bypasses" it. "Without one of these, native CarPlay is unavailable." (CONFIRMED, S15). Android Auto needs no chip.
 - **Two legit ways to supply the chip for LIVI on Linux:**
@@ -68,3 +70,53 @@ Then add the chip (I²C coprocessor or LIVI Link) and retry the iPhone. Success 
 ## Next exact step
 
 Jonah: on the CachyOS box, build or install LIVI, plug in an **Android phone** first (proves wired AA end to end with zero extra hardware), then an iPhone (proves USB/pairing and shows the auth failure). Then pick a chip route: buy an I²C MFi breakout for a Pi, or reflash a spare Carlinkit into a LIVI Link. **Your call: the chip route costs money, and the LIVI Link route reflashes a dongle (not the car).**
+
+## Deep dive: node-CarPlay + react-carplay (2026-11-08, static read only)
+
+Cloned [rhysmorgan134/node-CarPlay](https://github.com/rhysmorgan134/node-CarPlay) (`670f19e`, 2025-06-08, npm `node-carplay` 4.3.0, **MIT**) and [rhysmorgan134/react-carplay](https://github.com/rhysmorgan134/react-carplay) (`090b43d`, 2026-01-14, v4.0.5, Electron + React). Running them was refused by the sandbox policy (third-party code), so everything below comes from reading the source.
+
+**What they are (CONFIRMED from source/README):**
+- `node-carplay` is the **driver**: talks to a stock Carlinkit dongle (`1314:1520` / `1314:1521`) over two USB bulk endpoints, from Node (`node-usb`, needs `libudev-dev`) or straight from Chrome via **WebUSB**. It hands out raw H.264 + PCM and accepts touch/keys/mic.
+- `react-carplay` is the **app** on top: Electron UI, WebGL/WebGPU renderer in a worker, mic + camera pick, key bindings, plus **SocketCAN** (show a camera on a CAN bit) and PiMost. Ships AppImages (arm64, armv7l, x64) and a udev rule: `SUBSYSTEM=="usb", ATTR{idVendor}=="1314", ATTR{idProduct}=="152*", MODE="0660", GROUP="plugdev"`.
+- Supported dongles: **CPC200-CCPA / CPC200-CCPM / CPC200-Autokit** (the "turn an Android head unit into CarPlay" kind). README: dongles that convert wired→wireless CarPlay for cars that already have CarPlay **will not work**.
+- The phone connects to the **dongle** (wireless on CCPA-class units), not to the Linux box. The dongle owns the MFi chip and the whole CarPlay/AA session, so **no chip work on our side**. Android Auto also goes through the same dongle (`PhoneType.AndroidAuto`).
+
+**Protocol (CONFIRMED, `src/modules/messages/*.ts`):**
+- 16-byte little-endian header: `magic 0x55AA55AA | payload length | type | type ^ 0xFFFFFFFF`, payload in a separate bulk transfer.
+- Main types: Open 0x01, Plugged 0x02, Phase 0x03, Unplugged 0x04, Touch 0x05, VideoData 0x06, AudioData 0x07, Command 0x08, MultiTouch 0x17, BoxSettings 0x19, MediaData 0x2A, SendFile 0x99, HeartBeat 0xAA (every 2 s).
+- Start-up: SendFile DPI → Open {width, height, fps, format=5, packetMax=49152, iBoxVersion=2, phoneWorkMode=2} → night mode, LHD/RHD, charge mode, box name, BoxSettings, `wifiEnable`, 2.4/5 GHz, mic source, audio transfer → `wifiConnect` 1 s later. Defaults are **800×640 @ 20 fps, 160 dpi**. The T7W panel is **800×480** (S5 sibling).
+- Touch: `action, x, y, flags` as uint32, with x/y **normalised 0..10000**. Mapping factory touch → this message is trivial once we can read touch events at all.
+- VideoData: 20-byte sub-header (width, height, flags, length, unknown) + raw H.264 NAL stream. AudioData: decodeType, volume (float), audioType, then PCM16.
+
+**Why this matters (STRONGLY SUPPORTED):** S1's Java library (`it.smg.libs.carlinkit.CarlinkitProtocol`) says it is "derived from rhysmorgan134/node-CarPlay", and its unit tests replay bytes captured from a real `1314:1521` dongle (fw `2022.11.19.1218CHY`) **on a Linux PC**. S1 also ships Linux bench scripts (`tools/test_protocol.py`, `test_handshake.py`, `capture_video.py`, pyusb). So node-carplay → S1 → (hopefully) T7W is one protocol lineage, and the PC bench step is already proven by someone else.
+
+**Verdict vs LIVI:**
+
+| | node-carplay / react-carplay | LIVI |
+|---|---|---|
+| Extra hardware | stock Carlinkit CCPA-class dongle (~$40-80), **no reflash** | MFi chip on I²C, or a dongle **reflashed** into a LIVI Link |
+| Phone link | phone ↔ dongle (wireless) | phone ↔ Linux box over USB (true wired) |
+| Port to an old Android head unit | **Easy**: tiny protocol, already ported to Android 4.0.4 by S1 | Hard: Rust core, Android 10+ |
+| Maturity | node-CarPlay last commit 2025-06; react-carplay 2026-01 | very active (2026-11-07) |
+
+For the T7W goal, **node-carplay + a stock dongle is the main line**. LIVI is a nice Linux toy and a fallback if the dongle protocol ever dies.
+
+**One dongle can't do both at once:** reflashing it into a LIVI Link replaces the stock firmware that node-carplay talks to (LIVI keeps a backup, so it's reversible). Test node-carplay first.
+
+### Bench test on CachyOS (Jonah)
+
+```bash
+# A. zero-install: Chrome/Chromium + WebUSB
+#    add the udev rule above, replug the dongle, open the node-CarPlay web example
+# B. react-carplay AppImage
+#    download the x86_64 AppImage from https://github.com/rhysmorgan134/react-carplay/releases
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="1314", ATTR{idProduct}=="152*", MODE="0660", GROUP="plugdev"' \
+  | sudo tee /etc/udev/rules.d/52-nodecarplay.rules && sudo udevadm control --reload
+chmod +x react-carplay-*.AppImage && ./react-carplay-*.AppImage
+# C. S1's python bench scripts (closest to what the head unit app does)
+git clone https://github.com/rsilveira/carlinkit-honda-connect && cd carlinkit-honda-connect/tools
+python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
+python3 test_protocol.py
+```
+
+Set width/height to **800×480** to match the car. Success = CarPlay on the PC screen, mouse clicks act as taps, audio plays.

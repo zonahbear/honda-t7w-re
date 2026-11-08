@@ -16,7 +16,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - **Done:** repo, docs, setup script, two read-only tools + 11 passing tests; first research pass (S1-S14).
 - **Big lead:** a probably-Brazilian 2016 HR-V EX-L runs a Fujitsu Ten "MY15ADA" Android 4.0.4 / Tegra unit, and [carlinkit-honda-connect](https://github.com/rsilveira/carlinkit-honda-connect) gets working CarPlay + AA on it via a Carlinkit CPC200 dongle + custom app (S1, S2). **Whether the US T7W is the same box is UNKNOWN.**
 - **Blockers:** no T7W firmware. US-forum evidence unreadable from the sandbox. The OS question needs observations in the car.
-- **Linux prototype (2026-11-08):** LIVI (S15) does native wired CarPlay on Linux but **needs an MFi chip** (I²C) or a LIVI Link (reflashed dongle). Build deps verified; build/run pending on CachyOS. See [docs/carplay-client-linux.md](docs/carplay-client-linux.md).
+- **Linux prototype (2026-11-08):** main line = stock Carlinkit CCPA-class dongle + node-carplay/react-carplay (S18), the same protocol S1 runs on the HR-V. LIVI (S15) does true wired CarPlay but **needs an MFi chip** (I²C) or a LIVI Link (reflashed dongle). Build deps verified; build/run pending on CachyOS. See [docs/carplay-client-linux.md](docs/carplay-client-linux.md).
 - **Next action:** in-car fingerprinting, [docs/next-steps.md](docs/next-steps.md) #1; in parallel, LIVI on CachyOS.
 
 ## 3. Repository map
@@ -88,7 +88,8 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 2026-11-08
 - Surveyed Linux CarPlay receivers (S15-S18). LIVI = best; MFi chip still mandatory for CarPlay, AA needs none.
 - Sandbox: deps installed, LIVI build refused by sandbox policy. Steps for CachyOS in docs/carplay-client-linux.md.
-- NEXT: build LIVI on CachyOS, test Android phone then iPhone; pick chip route (Jonah's call, costs money).
+- node-carplay/react-carplay read (S18): S1's protocol is derived from it. Main line for T7W.
+- NEXT: buy a CCPA-class dongle, bench it on CachyOS with react-carplay at 800×480 (docs/carplay-client-linux.md).
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff

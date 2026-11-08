@@ -6,3 +6,8 @@
 - Don't redo: candidate survey; xcertplay/DiPlay key-file route is rejected (D6).
 - Open: does the T7W's iPod support mean an MFi chip on its I²C bus? Can a LIVI/Rust core run on old Android (T7W likely < 9)?
 - Next exact action: on CachyOS `cd ~/src/LIVI/native && cargo xtask build-native`, Android phone test, then iPhone test.
+
+## 2026-11-08 (later) · node-carplay / react-carplay
+- Read both (static; sandbox refuses running third-party code). Protocol documented in docs/carplay-client-linux.md. S1 says its Java lib is derived from node-CarPlay.
+- Decision: stock CCPA-class dongle + node-carplay protocol is the main line; LIVI is the fallback / true-wired toy.
+- Next: Jonah buys dongle, runs react-carplay AppImage or S1 tools/test_protocol.py on CachyOS at 800x480.
