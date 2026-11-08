@@ -8,3 +8,9 @@
 - Collected Honda dealer update mechanics (Display Repro, Firmware Downloader, USB devices) from NHTSA bulletins.
 - Blocked: hrvforum, fitfreak and xda can't be reached from the sandbox. No T7W firmware found.
 - NEXT: in-car fingerprinting (docs/next-steps.md #1).
+
+## 2026-11-08 (wired CarPlay client on Linux, cloud sandbox)
+- Surveyed Linux/Android CarPlay receivers (S15-S18). LIVI (f-io) is the only maintained Linux project with native wired CarPlay; it needs an MFi chip on I²C or a LIVI Link.
+- Installed LIVI's build deps in the sandbox. The build itself was refused by the sandbox policy (third-party build scripts), so it's documented for CachyOS instead.
+- Wrote docs/carplay-client-linux.md, decision D6.
+- NEXT: Jonah builds LIVI on CachyOS, tests Android phone (AA) then iPhone (expect auth failure), then picks a chip route.

@@ -20,6 +20,10 @@ Format: date, decision, why, alternatives considered.
 ## 2026-10-21 D5: Repo built in the cloud sandbox, mirrored to project files
 - **Why:** no GitHub repo existed at first. Update 2026-10-21: Jonah created `zonahbear/honda-t7w-re` and this history was pushed there. GitHub is now canonical; the project-files copy is a stale snapshot.
 
+## 2026-11-08 D6: Linux CarPlay prototype = LIVI with a real MFi chip; no borrowed identities
+- Prototype wired CarPlay on Linux with LIVI (S15), authenticated by a real MFi coprocessor (I²C) or a LIVI Link (a dongle's own chip). Carlinkit-protocol hosts (S17/S18) are the fallback and the closest match to the on-unit S1 approach.
+- Rejected: accessory identities/keys extracted from vendor firmware (xcertplay key-file mode, DiPlay, S16). It's someone else's Apple-issued credential, revocable at any iOS update.
+
 ## Dead ends so far
 - Fetching hrvforum / fitfreak / xda from the cloud sandbox: blocked. Read them locally instead.
 - Searching the exact firmware strings `1.E200`, `H14M` (beyond one forum hit), `CVH-7738`: nothing public.
