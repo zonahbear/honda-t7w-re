@@ -36,3 +36,16 @@ To regenerate `files.txt` from the JSON, keep the `per_file` entries whose `stat
 3. **Media sink**: `AndroidMediaSink`, swapped for GStreamer or FFmpeg (H.264/HEVC + AAC/ALAC/Opus → PipeWire), plus touch from `evdev`/SDL into `AirPlayHid`.
 4. **Wireless**: Bluetooth RFCOMM through BlueZ, Wi-Fi AP through hostapd/NetworkManager, and Bonjour (JmDNS already works on the desktop JVM).
 5. **Controller**: `orchestration/CarPlayController` (3.3k lines, deeply tied to Android services). Write a new, slimmer desktop controller instead of porting it.
+
+## Wired Linux receiver app (2026-11-09)
+`app/com/shilapi/xcertplay/desktop/` adds a native wired CarPlay receiver around the core:
+`LinuxIphoneUsb` (libusb), `FfmpegMediaSink` (ffplay out), `DesktopReceiver` (the Linux
+equivalent of DiPlay's Android `CarPlayController.runStack`) and a `Main` CLI. It loads DiPlay's
+bundled MFi identity from `--key-dir/offline-mfi`. **Compiles and runs `--help`; the CarPlay
+bring-up is RUNTIME-UNTESTED** (no iPhone/identity in the build sandbox). Touch is not wired yet
+(`ffplay` is a separate window). Full setup + run guide: [docs/laptop-carplay-native-linux.md](../../docs/laptop-carplay-native-linux.md).
+
+```bash
+DIPLAY_DIR=~/src/DiPlay gradle installDist        # build the launcher
+./run-lubuntu.sh                                  # see the doc for KEY_DIR / NCM_IFACE
+```

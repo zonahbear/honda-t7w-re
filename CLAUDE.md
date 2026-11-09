@@ -41,7 +41,8 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 | `docs/recovery.md` | safety rules, risk tiers 0-4 |
 | `docs/next-steps.md` | ranked experiments, decision gate, unknowns |
 | `docs/diplay-audit.md` | DiPlay (S19) audit: protocol, MFi options, vs node-carplay/LIVI, Linux port scope + verdict |
-| `docs/laptop-carplay-bliss.md` | laptop CarPlay via Bliss OS + stock DiPlay APK (Jonah's 2026-11-09 pick) |
+| `docs/laptop-carplay-bliss.md` | laptop CarPlay via Bliss OS + stock DiPlay APK (option, not chosen) |
+| `docs/laptop-carplay-native-linux.md` | **chosen**: native wired Linux receiver on Lubuntu (prototypes/diplay-jvm-core app) |
 | `docs/session-log.md` | dated history |
 | `.claudes/breadcrumbs.md` | short-term handoff notes, newest first |
 
@@ -92,7 +93,8 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 - No T7W firmware found. US forums blocked from the sandbox.
 - NEXT: in-car fingerprinting (next-steps #1).
 2026-11-09
-- Audited DiPlay. Built `tools/port_scope.py` + the `prototypes/diplay-jvm-core` compile proof. Verdict: a Linux port is feasible but duplicates LIVI. Main line (node-carplay + dongle) unchanged.
+- Audited DiPlay. Built `tools/port_scope.py` + `prototypes/diplay-jvm-core`.
+- Jonah's call: build a native wired Linux receiver for a **Lubuntu** laptop using DiPlay's bundled identity (overrides D8 for laptop use; never commit the key). Wired USB/pairing/auth/control core (294 files) + a desktop app (`com.shilapi.xcertplay.desktop`) now compile and produce a runnable launcher; CarPlay bring-up is RUNTIME-UNTESTED (no iPhone here). Touch not wired yet. See docs/laptop-carplay-native-linux.md.
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff

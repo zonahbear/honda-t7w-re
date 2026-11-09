@@ -3,6 +3,7 @@
 // Usage: DIPLAY_DIR=/path/to/DiPlay gradle compileKotlin
 plugins {
     kotlin("jvm") version "2.2.10"
+    application
 }
 
 repositories { mavenCentral() }
@@ -27,7 +28,7 @@ val stageDiplay by tasks.registering(Sync::class) {
 }
 sourceSets {
     main {
-        kotlin.setSrcDirs(listOf(file("shim"), file("seams"), staged))
+        kotlin.setSrcDirs(listOf(file("shim"), file("seams"), file("app"), staged))
         java.setSrcDirs(listOf(staged))
     }
 }
@@ -35,8 +36,13 @@ tasks.named("compileKotlin") { dependsOn(stageDiplay) }
 tasks.named("compileJava") { dependsOn(stageDiplay) }
 kotlin { jvmToolchain(21) }
 
+application {
+    mainClass.set("com.shilapi.xcertplay.desktop.MainKt")
+}
+
 dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.79")
     implementation("org.jmdns:jmdns:3.6.3")
     implementation("net.sf.kxml:kxml2:2.3.0") // android.util.Xml stand-in
+    implementation("org.usb4java:usb4java:1.3.0") // libusb binding for the Linux iPhone USB host
 }
