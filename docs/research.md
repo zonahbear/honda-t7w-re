@@ -20,6 +20,7 @@ How directly each source applies to the US T7W is stated explicitly. Labels: CON
 | S12 | [usb.honda.com](https://usb.honda.com/) | USB updates for vehicles whose own "System Updates" feature exports `update_by_usb(.json)`. Lists Odyssey/Accord/Pilot. | **HYPOTHESIS: not applicable.** The 2016 HR-V DA has no known System Updates export. To confirm, check the car's settings menu. |
 | S13 | [10thcivicforum "infotainment hacking"](https://www.10thcivicforum.com/threads/infotainment-hacking.12249/) | "2016 USA Honda Civic w/Display Audio / Mitsubishi Electric / Android 4.2.2". On the HondaAppCenter rename trick, one poster says "the 2015s have no problem". | Ambiguous. Weak hint that 2015-era US DA units accept the rename install. |
 | S14 | [oemdtc TSB 10162450 (A19-070)](https://oemdtc.com/tsb/10162450/) | Starting point from the brief. | **Could not fetch** (client error). Still unread. |
+| S19 | [shihabal3amri/DiPlay](https://github.com/shihabal3amri/DiPlay) @615b32c (0.2.22) | GPL-3.0 Kotlin CarPlay receiver for BYD Android 7+ head units (xcertplay fork). Full iAP2 + AirPlay stack on the unit. MFi via I²C chip/CH341, a key file or a remote signer. The release APK bundles a key extracted from Carlinkit firmware. | Checked locally (static read + compile). Not runnable on the T7W as shipped. Its core is portable. See [diplay-audit.md](diplay-audit.md). (S15-S18 are defined on open PR branches.) |
 
 ## Blocked / failed research paths (don't retry from the cloud sandbox)
 
