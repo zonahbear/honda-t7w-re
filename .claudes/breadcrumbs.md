@@ -23,3 +23,8 @@
 - Checked LIVI source (f-io/LIVI @34ae05e): livi-helper/livi-core enable iap2-mfi `files`; `chip()` in livi-helper/src/embedded.rs tries key files in `~/.config/LIVI/mfi/` (certificate.p7b + identity.pk8, PKCS8 DER/PEM, P-256 or RSA) BEFORE the I2C chip. Same filenames as DiPlay's offline-mfi.
 - Run: LIVI install.sh (or x64 AppImage), copy ~/t7w-keys/offline-mfi/* to ~/.config/LIVI/mfi/, restart, look for "[helper] MFi from the imported files". UNTESTED with a real phone here.
 - NEXT: Jonah's first LIVI run log; JVM receiver becomes fallback.
+
+## 2026-11-09 03:45Z: first real LIVI run on Lubuntu
+- Jonah's log: DiPlay key in ~/.config/LIVI/mfi WORKS ("identification accepted", "MFi auth succeeded"). CONFIRMED.
+- Lubuntu is X11 -> LIVI compositor exits 127; workaround: `weston &` + `WAYLAND_DISPLAY=wayland-1 ~/LIVI/LIVI.AppImage`.
+- Session loop: CarPlayStartSession port=0 pk_len=0 because sudo-rs ignores `sudo -E` (LIVI passes LIVI_CP_AIRPLAY_PORT etc. via env). Fix given: `update-alternatives --config sudo` -> /usr/bin/sudo.ws. Awaiting Jonah's result.
