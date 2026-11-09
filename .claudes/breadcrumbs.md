@@ -1,0 +1,8 @@
+# Breadcrumbs (short-term memory, newest first)
+
+## 2026-11-09: DiPlay audit thread (branch claude/project-thread-t0dqd3)
+- **Did:** audited github.com/shihabal3amri/DiPlay @615b32c → docs/diplay-audit.md. Added tools/port_scope.py + tests/test_port_scope.py (16 tests OK). Added prototypes/diplay-jvm-core (276 DiPlay files compile on JDK 21 / Kotlin 2.2.10 with our stubs in shim/ and seams/; nothing executed).
+- **Key facts:** DiPlay = xcertplay fork, GPL-3.0, Android ≥7, a full iAP2 + AirPlay receiver on the unit. MFi via I²C chip / CH341, a key file, or a remote signer. The release APK bundles a Carlinkit-extracted key (rejected, D8).
+- **Verdict:** a Linux x64 port is feasible (remaining seams: libusb iPhone host, MFi I²C, GStreamer/FFmpeg sink, BlueZ/hostapd, new controller) but duplicates LIVI. It can't run on the T7W as shipped.
+- **Gotchas:** Maven Central sometimes returns 429, so retry with backoff. Decision numbers D6/D7 collide across open PR branches (74sto0 = LIVI D6; evidence/version-screen = Pioneer D6/D7), so renumber when merging. This branch is based on main, not on the other PRs.
+- **Next:** nothing blocking. Optional: Jonah reruns the compile on CachyOS. If an on-unit dongle-free receiver is ever pursued (after root), start from DiPlay's core + a real MFi chip on a CH341 adapter.

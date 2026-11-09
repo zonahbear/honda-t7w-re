@@ -24,3 +24,8 @@ ghidra_projects/
 .env
 *.pem
 *.key
+
+# Gradle prototypes (build/ also holds staged third-party GPL sources: never commit)
+prototypes/*/build/
+prototypes/*/.gradle/
+prototypes/*/.kotlin/
