@@ -24,6 +24,7 @@ Format: date, decision, why, alternatives considered.
 - **What:** DiPlay (S19) is a full on-unit CarPlay receiver. Its protocol core (iAP2, AirPlay, MFi clients) compiles unchanged on a desktop JVM (docs/diplay-audit.md).
 - **Decision:** don't make a DiPlay Linux port the main line, because LIVI already covers native Linux. Keep the core as the reference for a possible dongle-free on-unit receiver after root, authenticated only by a **real MFi chip** (e.g. on a CH341 USB-I²C adapter).
 - **Rejected:** the Carlinkit-extracted accessory key in DiPlay's release APK. It's someone else's Apple-issued credential, extractable and revocable.
+- **Override (Jonah, 2026-11-09):** for personal laptop testing, using the bundled identity is accepted (docs/laptop-carplay-bliss.md). It still never gets committed here.
 - **Note:** decision numbers D6/D7 are already in use on open PR branches, so this one is D8.
 
 ## Dead ends so far

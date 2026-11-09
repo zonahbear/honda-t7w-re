@@ -41,6 +41,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 | `docs/recovery.md` | safety rules, risk tiers 0-4 |
 | `docs/next-steps.md` | ranked experiments, decision gate, unknowns |
 | `docs/diplay-audit.md` | DiPlay (S19) audit: protocol, MFi options, vs node-carplay/LIVI, Linux port scope + verdict |
+| `docs/laptop-carplay-bliss.md` | laptop CarPlay via Bliss OS + stock DiPlay APK (Jonah's 2026-11-09 pick) |
 | `docs/session-log.md` | dated history |
 | `.claudes/breadcrumbs.md` | short-term handoff notes, newest first |
 
@@ -59,7 +60,7 @@ Labels: **CONFIRMED / STRONGLY SUPPORTED / HYPOTHESIS / UNKNOWN / DISPROVEN**.
 - D3: native AA (OpenDroidAuto-style, no dongle) stays a candidate.
 - D4: tools stay stdlib-only and read-only. No speculative format parsers.
 - D5: canonical repo is github.com/zonahbear/honda-t7w-re (created 2026-10-21).
-- D8: DiPlay is a reference library only (real MFi chip). Its bundled Carlinkit-extracted key is rejected. (D6/D7 numbers are taken on open PR branches.)
+- D8: DiPlay is a reference library only (real MFi chip). Its bundled Carlinkit-extracted key is rejected for the car. Jonah overrode that for laptop testing on 2026-11-09 (never commit the key). (D6/D7 numbers are taken on open PR branches.)
 
 ## 6. Commands
 ```bash

@@ -29,3 +29,8 @@ ghidra_projects/
 prototypes/*/build/
 prototypes/*/.gradle/
 prototypes/*/.kotlin/
+# Accessory identities (DiPlay offline-mfi etc.): never commit, repo is public
+runtime-assets/
+offline-mfi/
+*.pk8
+*.p7b
