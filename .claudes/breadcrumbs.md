@@ -18,3 +18,8 @@
 - **Gotchas:** Maven Central sometimes returns 429, so retry with backoff. Decision numbers D6/D7 collide across open PR branches (74sto0 = LIVI D6; evidence/version-screen = Pioneer D6/D7), so renumber when merging. This branch is based on main, not on the other PRs.
 - **Update 03:00Z:** Jonah dropped the T7W/MFi-chip constraint for a laptop and wants the DiPlay identity used. Wrote docs/laptop-carplay-bliss.md (Bliss OS + stock APK, recommended). Decision card is out: Bliss guide vs native Linux receiver vs both.
 - **Next:** act on his pick. If native: write the libusb iPhone host + ffmpeg sink + slim controller in prototypes/, loading the key from a gitignored folder.
+
+## 2026-11-09 03:35Z: LIVI + DiPlay key (likely simpler than our JVM receiver)
+- Checked LIVI source (f-io/LIVI @34ae05e): livi-helper/livi-core enable iap2-mfi `files`; `chip()` in livi-helper/src/embedded.rs tries key files in `~/.config/LIVI/mfi/` (certificate.p7b + identity.pk8, PKCS8 DER/PEM, P-256 or RSA) BEFORE the I2C chip. Same filenames as DiPlay's offline-mfi.
+- Run: LIVI install.sh (or x64 AppImage), copy ~/t7w-keys/offline-mfi/* to ~/.config/LIVI/mfi/, restart, look for "[helper] MFi from the imported files". UNTESTED with a real phone here.
+- NEXT: Jonah's first LIVI run log; JVM receiver becomes fallback.
