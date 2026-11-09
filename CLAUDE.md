@@ -94,7 +94,7 @@ Then the decision gate in next-steps.md. Any Tier 2+ step (installing an APK, et
 - NEXT: in-car fingerprinting (next-steps #1).
 2026-11-09
 - Audited DiPlay. Built `tools/port_scope.py` + `prototypes/diplay-jvm-core`.
-- Jonah's call: build a native wired Linux receiver for a **Lubuntu** laptop using DiPlay's bundled identity (overrides D8 for laptop use; never commit the key). Wired USB/pairing/auth/control core (294 files) + a desktop app (`com.shilapi.xcertplay.desktop`) now compile and produce a runnable launcher; CarPlay bring-up is RUNTIME-UNTESTED (no iPhone here). Touch not wired yet. See docs/laptop-carplay-native-linux.md.
+- Jonah's call: build a native wired Linux receiver for a **Lubuntu** laptop using DiPlay's bundled identity (overrides D8 for laptop use; never commit the key). Wired USB/pairing/auth/control core (294 files) + a desktop app (`com.shilapi.xcertplay.desktop`) now compile and produce a runnable launcher; CarPlay bring-up is RUNTIME-UNTESTED (no iPhone here). Single touch wired + self-tested (`TouchSelfTest` under xvfb). One-command install: `prototypes/diplay-jvm-core/install-lubuntu.sh`. See docs/laptop-carplay-native-linux.md.
 (Older entries move to docs/session-log.md when this grows.)
 
 ## Session handoff

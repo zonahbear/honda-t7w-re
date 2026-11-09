@@ -1,5 +1,10 @@
 # Breadcrumbs (short-term memory, newest first)
 
+## 2026-11-09 (03:30Z): installer + touch
+- install-lubuntu.sh (one command: clone branch + run it) installs apt deps, pulls the APK identity into ~/t7w-keys, clones DiPlay, udev rule, builds. Ubuntu apt gradle 4.4 is too old, so the Gradle 8.14.3 wrapper is committed (jar force-added past *.jar ignore).
+- Touch: VideoWindow (ffmpeg → raw BGR → Swing; mouse → AirPlaySession.sendTouch normalized 0..1, release = empty list). TouchSelfTest passes 5/5 under xvfb-run. Bugs found by it: `-fflags nobuffer` makes piped ffmpeg emit 0 frames; JPanel width/height shadowing made the window 0x0.
+- Still pending: multi-touch, mic, A/V sync, a real iPhone run.
+
 ## 2026-11-09 (later): native Lubuntu receiver
 - Jonah: dropped the T7W/MFi-chip goal, wants it on a laptop with DiPlay's bundled key, target **Lubuntu**. Overrides D8 for laptop use; never commit the key (repo is public).
 - Built prototypes/diplay-jvm-core app (com.shilapi.xcertplay.desktop): LinuxIphoneUsb (usb4java; vendor 0x52 switch + USBMUX claim), FfmpegMediaSink (ffplay out), DesktopReceiver (= Android CarPlayController.runStack on Linux; kernel cdc_ncm replaces userspace NCM/VpnService), Main CLI. Deps added: usb4java 1.3.0, kxml2. installDist builds; --help runs.

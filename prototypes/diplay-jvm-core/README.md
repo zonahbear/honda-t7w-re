@@ -39,11 +39,11 @@ To regenerate `files.txt` from the JSON, keep the `per_file` entries whose `stat
 
 ## Wired Linux receiver app (2026-11-09)
 `app/com/shilapi/xcertplay/desktop/` adds a native wired CarPlay receiver around the core:
-`LinuxIphoneUsb` (libusb), `FfmpegMediaSink` (ffplay out), `DesktopReceiver` (the Linux
+`LinuxIphoneUsb` (libusb), `VideoWindow` (in-process screen + touch, self-tested via `TouchSelfTest`), `FfmpegMediaSink` (audio out), `DesktopReceiver` (the Linux
 equivalent of DiPlay's Android `CarPlayController.runStack`) and a `Main` CLI. It loads DiPlay's
 bundled MFi identity from `--key-dir/offline-mfi`. **Compiles and runs `--help`; the CarPlay
-bring-up is RUNTIME-UNTESTED** (no iPhone/identity in the build sandbox). Touch is not wired yet
-(`ffplay` is a separate window). Full setup + run guide: [docs/laptop-carplay-native-linux.md](../../docs/laptop-carplay-native-linux.md).
+bring-up is RUNTIME-UNTESTED** (no iPhone/identity in the build sandbox). Single touch is wired and self-tested
+without a phone; multi-touch and mic are not. Full setup + run guide: [docs/laptop-carplay-native-linux.md](../../docs/laptop-carplay-native-linux.md).
 
 ```bash
 DIPLAY_DIR=~/src/DiPlay gradle installDist        # build the launcher

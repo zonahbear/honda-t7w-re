@@ -13,10 +13,11 @@ Prototype: [prototypes/diplay-jvm-core](../prototypes/diplay-jvm-core/README.md)
 - **Control:** DiPlay's `Iap2UsbMuxHost`, `LockdownPairingClient`, `LockdownCarKitClient`, `Iap2Session` and `Iap2WiredControlClient` run unchanged.
 - **Auth:** DiPlay's `LocalMfiAuthenticationClient` loads `offline-mfi/identity.pk8` + `certificate.p7b` from `--key-dir` and self-verifies the key against the certificate. This is where the bundled identity plugs in.
 - **AirPlay session:** DiPlay's `AirPlaySession` + `CarPlayMediaEngine` handle pairing, crypto, RTSP and stream setup.
-- **Media out** (`FfmpegMediaSink`): H.264/HEVC → `ffplay`, audio (LPCM/AAC/Opus) → `ffplay`. DiPlay's `MediaCodecSupport` (pure) does the AVCC→Annex-B conversion.
+- **Screen + touch** (`VideoWindow`, added 2026-11-09): ffmpeg decodes H.264/HEVC to raw frames that a Swing window paints. The same window owns the pointer, so a click, drag or touchscreen tap becomes a CarPlay touch report through DiPlay's `AirPlaySession.sendTouch` (single touch). **Self-tested here** under a virtual display: 117 frames of a generated H.264 stream decoded and painted, and synthetic press/drag/release produced the right normalized touch reports (`TouchSelfTest`). Not tested: the last hop into an iPhone.
+- **Audio** (`FfmpegMediaSink`): LPCM byte-swapped, AAC wrapped in ADTS (as DiPlay does), Opus decoded in-process with the bundled Concentus decoder, each played by `ffplay`.
 
 ## What is NOT wired yet (next work, ranked)
-1. **Touch/input.** `ffplay` is a separate window, so there's no path from a laptop click to DiPlay's `AirPlaySession.sendTouch`. A real build needs an in-process video surface (JavaFX/OpenGL decoding via JavaCV/FFmpeg, or an SDL window) that owns both the pixels and the pointer, then maps normalized x/y into `AirPlayContact`. Until then it's view-only.
+1. **Multi-touch** (pinch/zoom): Swing gives one pointer; real multi-touch needs evdev or an SDL window.
 2. **Microphone uplink** (Siri/calls): `MicrophoneUplink` is Android audio; needs a PulseAudio/PipeWire capture seam.
 3. **Audio/video sync and buffering**: the two `ffplay` processes don't share a clock. DiPlay's `AndroidMediaSink` buffering/pacing wasn't ported.
 4. **HEVC path** is wired but untried.
@@ -43,6 +44,13 @@ ip link                                   # look for a new enp0s20u1-style inter
 DIPLAY_DIR=~/src/DiPlay KEY_DIR=~/t7w-keys NCM_IFACE=enp0s20u1 ./run-lubuntu.sh
 ```
 The launcher stops `usbmuxd` first (it would otherwise grab the iPhone), builds, and starts the receiver. Unlock the phone and tap **Trust** when prompted. Logs are plain stdout.
+
+## Test the screen + touch without an iPhone
+```bash
+cd prototypes/diplay-jvm-core
+java -cp "build/install/diplay-jvm-core/lib/*" com.shilapi.xcertplay.desktop.TouchSelfTestKt
+```
+A window plays a test pattern, the mouse is driven automatically, and it prints PASS/FAIL. Needs `libx264` in ffmpeg (Ubuntu's ffmpeg has it).
 
 ## If it doesn't connect (expected, first time)
 - **No Apple device found**: check `lsusb` for `05ac:`; re-seat the cable (a data cable, not charge-only).

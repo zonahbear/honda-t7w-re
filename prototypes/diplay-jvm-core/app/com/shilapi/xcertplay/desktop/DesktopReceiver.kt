@@ -78,7 +78,7 @@ class DesktopReceiver(
                 val socket = try { server.accept() } catch (e: Exception) { break }
                 socket.tcpNoDelay = true
                 log("iPhone AirPlay connection from ${socket.remoteSocketAddress}")
-                AirPlaySession(socket, config, identity, pairings, mfi, loggingListener(), media).start()
+                AirPlaySession(socket, config, identity, pairings, mfi, loggingListener(sink), media).start()
             }
         }, "airplay-accept").apply { isDaemon = true; start() }
 
@@ -148,9 +148,15 @@ class DesktopReceiver(
         carPlayUsbInterfaceNumber = 3,
     )
 
-    private fun loggingListener() = object : AirPlaySessionListener {
-        override fun onSessionActive(session: AirPlaySession) = log("AirPlay session active")
-        override fun onSessionEnded(session: AirPlaySession) = log("AirPlay session ended")
+    private fun loggingListener(sink: FfmpegMediaSink) = object : AirPlaySessionListener {
+        override fun onSessionActive(session: AirPlaySession) {
+            log("AirPlay session active; touch enabled")
+            sink.window.onTouch = { contacts -> session.sendTouch(contacts) }
+        }
+        override fun onSessionEnded(session: AirPlaySession) {
+            log("AirPlay session ended")
+            sink.window.onTouch = { false }
+        }
         override fun onTransportError(message: String) = log("AirPlay transport error: $message")
         override fun onDebugLog(message: String) {}
     }
