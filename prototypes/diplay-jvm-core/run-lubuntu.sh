@@ -7,6 +7,6 @@ set -euo pipefail
 : "${NCM_IFACE:?set NCM_IFACE to the iPhone cdc_ncm netdev (see: ip link)}"
 sudo systemctl stop usbmuxd 2>/dev/null || true   # usbmuxd would grab the iPhone first
 cd "$(dirname "$0")"
-DIPLAY_DIR="$DIPLAY_DIR" gradle --no-daemon -q installDist
+DIPLAY_DIR="$DIPLAY_DIR" ./gradlew --no-daemon -q installDist
 exec build/install/diplay-jvm-core/bin/diplay-jvm-core \
   --key-dir "$KEY_DIR" --ncm-iface "$NCM_IFACE" "${@:-}"

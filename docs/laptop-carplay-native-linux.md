@@ -34,7 +34,7 @@ Keep `~/t7w-keys` off any public repo. (This is Carlinkit's Apple-issued identit
 
 ## Run (Lubuntu)
 ```bash
-sudo apt install openjdk-21-jdk gradle ffmpeg libusb-1.0-0 usbmuxd
+sudo apt install openjdk-21-jdk ffmpeg libusb-1.0-0   # Gradle comes from ./gradlew
 cd prototypes/diplay-jvm-core
 sudo cp 70-t7w-iphone.rules /etc/udev/rules.d/ && sudo udevadm control --reload   # USB access without root
 git clone https://github.com/shihabal3amri/DiPlay ~/src/DiPlay
